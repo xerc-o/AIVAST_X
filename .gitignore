@@ -40,4 +40,9 @@ venv/
 .venv/
 
 instance/*.db
+.env
+instance/
+*.key
+*.pem
+
 
