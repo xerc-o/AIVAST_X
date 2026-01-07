@@ -2,3 +2,39 @@
 .env.*
 __pycache__/
 *.log
+
+# Python / Flask
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Config & sensitive keys
+.env
+instance/*.py     # jika menyimpan secret
+instance/*.env
+instance/local_settings.py
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+
+# Logs & runtime
+*.log
+logs/
+tmp/
+
+# Python sensitive / config
+.env
+instance/*.py
+instance/*.env
+
+# Python artifacts
+*.egg-info/
+__pycache__/
+*.pyc
+
+# Local env
+venv/
+.venv/
