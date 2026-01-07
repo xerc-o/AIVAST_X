@@ -23,27 +23,40 @@ Parsed Nikto Data:
 - Statistics: {json.dumps(structured.get('statistics', {}), indent=2)}
 
 Vulnerabilities/Issues:
-{json.dumps(structured.get('items', [])[:20], indent=2)}
+{json.dumps(structured.get('items', []), indent=2)}
 """
             nikto_data = structured_summary
         else:
             nikto_data = f"Stdout: {stdout}\n\nStderr: {stderr}"
 
         return f"""
-You are a web security analyst.
+You are a web security analyst. Your goal is to analyze the Nikto scan results and provide a clear, concise, and actionable security report.
 
-ONLY return valid JSON.
-DO NOT include explanations.
-DO NOT use markdown.
+Return ONLY valid JSON.
+DO NOT include explanations outside the JSON.
+DO NOT use markdown formatting (e.g., ```json).
 
 JSON schema:
 {{
-  "risk": "info|low|medium|high",
-  "issues": ["string"],
-  "info": ["string"],
-  "recommendations": ["string"]
+  "risk": "info|low|medium|high|critical",
+  "summary": "A comprehensive summary of the key findings, potential vulnerabilities, and the overall security posture based on the Nikto output. This summary should clearly state the most important security implications.",
+  "findings": [
+    {{
+      "id": "string (Nikto ID)",
+      "description": "string (Description of vulnerability)",
+      "uri": "string (Affected URI)",
+      "severity": "low|medium|high|critical",
+      "recommendation": "string (Specific recommendation to fix)"
+    }}
+  ],
+  "recommendations": [
+    "string (general high-level recommendations, e.g., 'Ensure all web server headers are properly configured', 'Regularly patch web applications')",
+    "string"
+  ]
 }}
 
 Nikto output:
 {nikto_data}
+
+Based on the Nikto output provided, generate the JSON response. Pay close attention to common web server misconfigurations, missing security headers, known vulnerabilities, and potential information leaks. If specific CVEs or detailed recommendations are not immediately apparent from the Nikto output alone, provide general security best practices relevant to the identified issues.
 """
